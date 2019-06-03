@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="google-signin-client_id" content="{{  GOOGLE_CLIENT_ID }}">
+    <title>Login</title>
+    <style>
+
+    </style>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+</head>
+<body>
+
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+<script>
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log(profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log(profile.getName());
+        console.log(profile.getGivenName());
+        console.log(profile.getFamilyName());
+        console.log(profile.getImageUrl());
+        console.log(profile.getEmail()); // This is null if the 'email' scope is not present.
+
+        // Send the ID token to your backend server
+        // https://developers.google.com/identity/sign-in/web/backend-auth
+        var google_jwt = googleUser.getAuthResponse().id_token;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '{{ url_for('post_login') }}');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+            console.log(xhr.responseText);
+        };
+        xhr.send(JSON.stringify({token: google_jwt}));
+    }
+</script>
+
+</body>
+</html>
+
+
