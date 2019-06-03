@@ -1,11 +1,11 @@
 from flask import render_template, jsonify, request
 from app.auth import google
-from app.bootstrap import server
+from app.bootstrap import app
 
 
-@server.route('/')
+@app.route('/')
 def index():
-    return server.config['GOOGLE_CLIENT_ID']
+    return app.config['GOOGLE_CLIENT_ID']
     # access_token = session.get('access_token')
     # if access_token is None:
     #     return redirect(url_for('login'))
@@ -26,31 +26,31 @@ def index():
     # return res.read()
 
 
-@server.route('/login')
+@app.route('/login')
 def login():
-    return render_template('login.html', GOOGLE_CLIENT_ID=server.config['GOOGLE_CLIENT_ID'])
+    return render_template('login.html', GOOGLE_CLIENT_ID=app.config['GOOGLE_CLIENT_ID'])
     # callback = url_for('authorized', _external=True)
     # return google.authorize(callback=callback)
 
 
-@server.route('/private')
+@app.route('/private')
 def private():
     return 'This page should be private'
 
 # ---------------------------------------------------------------------------------------------------------------
 # API Routes
 # ---------------------------------------------------------------------------------------------------------------
-@server.route('/api/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def post_login():
 
     token = request.json['token']
 
-    token = google.validate_token(token, server.config['GOOGLE_CLIENT_ID'])
+    token = google.validate_token(token, app.config['GOOGLE_CLIENT_ID'])
 
     return jsonify({"jwt": token})
 #
 #
-# @server.route(REDIRECT_URI)
+# @app.route(REDIRECT_URI)
 # @google.authorized_handler
 # def authorized(resp):
 #     access_token = resp['access_token']

@@ -3,9 +3,9 @@
 # There are more options for Flask: http://flask.pocoo.org/docs/1.0/config/
 # -----------------------------------------------------------------------------------
 import os
-from app.bootstrap import server
+from app.bootstrap import app
 
-server.config.update(
+app.config.update(
     debug=os.getenv("FLASK_DEBUG"),
     secret_key=os.getenv("FLASK_SECRET_KEY"),
     # See https://code.google.com/apis/console

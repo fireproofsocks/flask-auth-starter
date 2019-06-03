@@ -2,7 +2,7 @@
 # Turn On The Lights
 # ----------------------------------------
 # from app.bootstrap import app
-import app
+from app.bootstrap import app
 
 if __name__ == '__main__':
-    app.bootstrap.server.run()
+    app.run()
